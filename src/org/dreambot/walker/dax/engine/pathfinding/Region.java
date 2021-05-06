@@ -2,15 +2,23 @@ package org.dreambot.walker.dax.engine.pathfinding;
 
 
 import org.dreambot.api.Client;
+import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.interactive.Players;
+import org.dreambot.api.methods.map.Map;
 import org.dreambot.api.methods.map.Tile;
+import org.dreambot.api.wrappers.map.impl.CollisionMap;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class Region {
     private PathTile[][] map;
     private Tile base;
 
     public Region() {
-        this(Client.getBase(), Client.getCollisionMaps()[Client.getPlane()].getFlags());
+        this(new Tile(Client.getBaseX(), Client.getBaseY(), Client.getPlane()), Client.getCollisionMaps()[Client.getBase().getZ()].getFlags());
     }
 
     public Region(final Tile b, final int[][] collision) {

@@ -52,11 +52,12 @@ public class DaxWalker {
     }
 
     public WalkState walkTo(Locatable locatable, WalkCondition walkCondition) {
-        MethodProvider.logInfo("DaxWalker" + String.format("Navigating to (%d,%d,%d)", locatable.getX(), locatable.getY(), locatable.getZ()));
+        MethodProvider.logInfo("[DaxWalker] " + String.format("Navigating to (%d,%d,%d)", locatable.getX(), locatable.getY(), locatable.getZ()));
         List<PathRequestPair> pathRequestPairs = useTeleports ? getPathTeleports(locatable.getTile()) : new ArrayList<>();
         pathRequestPairs.add(new PathRequestPair(Point3D.from(localPosition()), Point3D.from(locatable.getTile())));
 
         BulkPathRequest request = new BulkPathRequest(PlayerDetails.generate(), pathRequestPairs);
+
         try {
             return walkerEngine.walk(server.getPaths(request), walkCondition) ? WalkState.SUCCESS : WalkState.FAILED;
         } catch (RateLimitException e2) {

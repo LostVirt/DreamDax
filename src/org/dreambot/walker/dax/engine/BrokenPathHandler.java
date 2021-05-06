@@ -52,6 +52,7 @@ public class BrokenPathHandler {
             for (DestinationStateSpecialCase specialCase : specialCases) {
                 if (specialCase.satisfies(gameObject)) return specialCase.handle(gameObject);
             }
+
             return gameObject.interact(s -> this.pattern.matcher(s).matches());
         }
 
@@ -98,6 +99,7 @@ public class BrokenPathHandler {
                 .filter(link -> link.getStart().equals(start) && link.getEnd().equals(end))
                 .findAny()
                 .orElse(null);
+
         if (pathLink != null) return pathLink.handle(walkCondition);
         return null;
     }
@@ -168,12 +170,14 @@ public class BrokenPathHandler {
     private static GameObject getBlockingObject(Tile start, Tile end) {
         NextMove state = determine(start, end);
         GameObject[] gameObjects = GameObjects.all(sceneObject -> sceneObject.getTile().distance(start) <= 5 && state.objectSatisfies(sceneObject)).toArray(new GameObject[0]);
+
         return Arrays.stream(gameObjects).min(Comparator.comparingDouble(o -> o.distance(start))).orElse(null);
     }
 
     private static boolean containsAction(GameObject gameObject, Pattern regex) {
         String[] actions = gameObject.getActions();
         if (actions == null) return false;
+
         return GameObjectHandler.hasAction(gameObject, s -> regex.matcher(s).matches());
     }
 

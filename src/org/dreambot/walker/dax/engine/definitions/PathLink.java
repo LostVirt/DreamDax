@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 
 public class PathLink {
     private static List<PathLink> values = new ArrayList();
-    public static final PathLink KARAMJA_PORT_SARIM = new PathLink(new Tile(2953, 3146, 0), new Tile(3029, 3217, 0), (start, end, walkCondition) -> EntityHandler.handleWithAction(Pattern.compile("(?i)pay.fare"), start, end, walkCondition));
+    public static final PathLink KARAMJA_PORT_SARIM = new PathLink(new Tile(2953, 3146, 0), new Tile(3029, 3217, 0),
+            (start, end, walkCondition) -> EntityHandler.handleWithAction(Pattern.compile("(?i)pay.fare"), start, end, walkCondition));
     public static final PathLink KARAMJA_PORT_PHASMATYS = new PathLink(new Tile(2953, 3146, 0), new Tile(3702, 3503, 0), (start, end, walkCondition) -> EntityHandler.handleCharter(CharterShip.Destination.PORT_PHASMATYS, walkCondition));
     public static final PathLink PORT_PHASMATYS_KARAMJA = new PathLink(new Tile(3702, 3503, 0), new Tile(2953, 3146, 0), (start, end, walkCondition) -> EntityHandler.handleCharter(CharterShip.Destination.MUSA_POINT, walkCondition));
     public static final PathLink PORT_PHASMATYS_PORTSARIM = new PathLink(new Tile(3702, 3503, 0), new Tile(2796, 3414, 0), (start, end, walkCondition) -> EntityHandler.handleCharter(CharterShip.Destination.PORT_PHASMATYS, walkCondition));

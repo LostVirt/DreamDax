@@ -13,11 +13,10 @@ public class Walker {
 
     static {
         try {
-            daxWalker = new DaxWalker(new Server("key", "PUBLIC-KEY"));
+            daxWalker = new DaxWalker(new Server("sub_DPjXXzL5DeSiPf", "PUBLIC-KEY"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }

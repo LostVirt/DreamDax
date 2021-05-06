@@ -61,13 +61,13 @@ public class PathHandler {
         if (previous != null && previous.equals(now)) {
             Tile destination = getNextTileInPath(now, path);
             if (destination != null) {
-                MethodProvider.logError("[DaxWalker] " + String.format("Disconnected path: (%d,%d,%d) -> (%d,%d,%d)", now.getX(), now.getY(), now.getZ(), destination.getX(), destination.getY(), destination.getZ()));
+                MethodProvider.logInfo("[DaxWalker] " + String.format("Disconnected path: (%d,%d,%d) -> (%d,%d,%d)", now.getX(), now.getY(), now.getZ(), destination.getX(), destination.getY(), destination.getZ()));
                 PathHandleState pathHandleState = BrokenPathHandler.handlePathLink(now, destination, walkCondition, pathLinks);
                 return pathHandleState != null ? pathHandleState : BrokenPathHandler.handle(now, destination, walkCondition);
             }
 
             if (Walking.getDestination() != null && !Walking.getDestination().equals(now)) {
-                MethodProvider.logError("[DaxWalker] Clicking supposed last pathTile in path...");
+                MethodProvider.logInfo("[DaxWalker] Clicking supposed last pathTile in path...");
 
                 Walking.walkExact(now);
                 MethodProvider.sleep(500);
@@ -80,7 +80,7 @@ public class PathHandler {
         Tile destination = new BFSMapCache(now, new Region()).getRandom(2);
         if (destination == null) return PathHandleState.FAILED;
 
-        Walking.walkExact(destination);
+        if (!Walking.walkExact(destination)) return PathHandleState.FAILED;
 
         AtomicBoolean exitCondition = new AtomicBoolean(false);
         RunManager runManager = new RunManager();
@@ -113,8 +113,13 @@ public class PathHandler {
         Tile playerPosition = Players.localPlayer().getTile();
         BFSMapCache bfsMapCache = new BFSMapCache(playerPosition, new Region());
         for (int i = path.size() - 1; i >= 0; i--) {
-            if (path.get(i).getZ() != playerPosition.getZ()) continue;
-            if (path.get(i).distance(playerPosition) <= limit && bfsMapCache.getMoveCost(path.get(i)) <= limit) return path.get(i);
+            if (path.get(i).getZ() != playerPosition.getZ()) {
+                continue;
+            }
+            boolean tileDistanceValid = path.get(i).distance() <= limit;
+            int moveCost = bfsMapCache.getMoveCost(path.get(i));
+            boolean moveCostValid = moveCost <= limit;
+            if (tileDistanceValid && moveCostValid) return path.get(i);
         }
         return null;
     }

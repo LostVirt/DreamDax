@@ -57,8 +57,9 @@ public class WalkerEngine {
             return false;
         }
         lastPath = pathResult;
-        MethodProvider.logError("[DaxWalker] " + String.format("Chose path of cost: %d out of %d options.", pathResult.getCost(), validPaths.size()));
-        return PathHandler.walk(convert(pathResult.getPath()), walkCondition, 3, instance.getStore().getPathLinks());
+        MethodProvider.logInfo("[DaxWalker] " + String.format("Chose path of cost: %d out of %d options.", pathResult.getCost(), validPaths.size()));
+        List<Tile> pathTiles = convert(pathResult.getPath());
+        return PathHandler.walk(pathTiles, walkCondition, 3, instance.getStore().getPathLinks());
     }
 
     public List<PathResult> validPaths(List<PathResult> list) {

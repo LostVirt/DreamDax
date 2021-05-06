@@ -5,6 +5,7 @@ package org.dreambot.walker.dax.engine.pathfinding;
 
 
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.MethodProvider;
 import org.dreambot.api.methods.interactive.Players;
 import org.dreambot.api.methods.map.Tile;
 
@@ -47,7 +48,9 @@ public class BFSMapCache extends BFS {
     }
 
     public int getMoveCost(final Tile position) {
-        if (!this.getRegion().contains(position)) return Integer.MAX_VALUE;
+        if (!this.getRegion().contains(position)) {
+            return Integer.MAX_VALUE;
+        }
         if (position.equals(Players.localPlayer().getTile())) return 0;
         PathTile pathTile = getTile(position);
         return pathTile != null ? getCost(pathTile) : Integer.MAX_VALUE;
