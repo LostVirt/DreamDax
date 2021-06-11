@@ -44,7 +44,7 @@ public class BrokenPathHandler {
             for (DestinationStateSpecialCase specialCase : specialCases) {
                 if (specialCase.satisfies(gameObject)) return true;
             }
-            if (!gameObject.getName().matches("chest.*")) return false;
+            if (gameObject.getName().matches("chest.*")) return false;
             return containsAction(gameObject, this.pattern);
         }
 
